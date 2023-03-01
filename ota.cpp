@@ -1,6 +1,6 @@
 #include "ota.h"
 #include <Update.h>
-//./OTAUpdate -f /tmp/arduino_build_857937/pufferbot.ino.bin -i 192.168.137.155 -p 5000
+
 uint32_t chunk_size = OTA_CHUNK_SIZE;
 
 bool ota_read_data(WiFiClient &client, uint8_t *buffer, size_t buffer_size, bool wait){
