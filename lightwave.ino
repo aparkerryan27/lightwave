@@ -4,13 +4,26 @@
 WI_FI(BatLAN, thedarknet, 10, 0, 0, 154, 4500);
 OTA(5000);
 
+void(* resetFunc) (void) = 0; //declare power reset function
+
+int led = 23;           // the PWM pin the LED is attached to
+int brightness = 0;    // how bright the LED is
+
+unsigned long sync_time = 0;
+
 void setup() {
+
+  pinMode(led, OUTPUT);
+  
   // put your setup code here, to run once:
   Serial.begin(115200);
   Serial.print("connecting to wifi");
-  WIFI_INIT(Serial.print("."); delay(500););
-  OTA_INIT();
   
+  sync_time = millis();
+  
+  //TODO: check to see if this actually restarts the device after 30 seonds of waiting
+  WIFI_INIT(Serial.print("."); delay(500); if (millis() - sync_time > 30000) {resetFunc(); });
+  OTA_INIT();
   Serial.println("Done");
 }
 
@@ -30,13 +43,13 @@ void loop() {
 
   OTA_CHECK_UPDATES();
   WIFI_ATTEND_CLIENT();
-
   //recieve data into object format
   if (WIFI_DATA_AVAILABLE(data)) {
     Serial.println("new values!");
     report.r = data.r;
     report.g = data.g;
     report.b = data.b;
+    sync_time = millis();
     
     //send a report back
     if (WIFI_SEND_DATA(report)) {
@@ -44,7 +57,12 @@ void loop() {
     }
     
   }
- 
-  //delay(1); //can be helpful if there are conflicts
+
+  //testing fadeout
+  analogWrite(led, brightness);
+  Serial.println(brightness);
+  brightness = ((int)((millis()-sync_time)/5) %255); 
+
+  delay(2); //can be helpful if there are conflicts
   
 }
