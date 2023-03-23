@@ -45,7 +45,7 @@ void ota_Update (WiFiClient &ota_client){
   Update.write(b,  wifi_update_size % chunk_size);
   Serial.printf("Wrote %d bytes\n", wifi_update_size);
   if (Update.end(true)) { 
-    Serial.printf("Rebooting...\n", wifi_update_size); 
+    Serial.printf("Rebooting...\n");//, wifi_update_size); 
     ESP.restart();
   } else { 
     Update.printError(Serial); 
