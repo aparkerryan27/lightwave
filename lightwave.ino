@@ -11,7 +11,7 @@
 #define LRG_FIXTURE 106
 #define MED_FIXTURE 96
 #define SML_FIXTURE 60
-#define FIXTURE_SIZE HUGE_FIXTURE
+#define FIXTURE_SIZE LRG_FIXTURE
 
 #define LED_PIN 5
 #define LED_BUILTIN 2
@@ -25,6 +25,7 @@ LightObjectPattern *pattern;
 //Structure example to receive data
 //Must match the sender structure
 typedef struct info_struct {
+  int group;
   int pattern;
   int h;
   int s;
@@ -59,6 +60,19 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   digitalWrite(LED_BUILTIN, LOW);
 
   memcpy(&info, incomingData, sizeof(info));
+
+  // logging information 
+  
+  Serial.print("pattern: ");
+  Serial.println(info.pattern);
+  Serial.print("h: ");
+  Serial.println(info.h);
+  Serial.print("s: ");
+  Serial.println(info.s);
+  Serial.print("v: ");
+  Serial.println(info.v);
+
+  
 
   if (info.pattern != patternType){
     //TODO: clean up previous pattern object before attaching a new one
