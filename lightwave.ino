@@ -8,10 +8,10 @@
 
 //MARK: Sizes
 #define HUGE_FIXTURE 300
-#define LRG_FIXTURE 106
+#define LRG_FIXTURE 124
 #define MED_FIXTURE 96
-#define SML_FIXTURE 60
-#define FIXTURE_SIZE LRG_FIXTURE
+#define SML_FIXTURE 68
+#define FIXTURE_SIZE SML_FIXTURE
 
 #define LED_PIN 5
 #define LED_BUILTIN 2
@@ -63,6 +63,8 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 
   // logging information 
   
+  Serial.print("group: ");
+  Serial.println(info.group);
   Serial.print("pattern: ");
   Serial.println(info.pattern);
   Serial.print("h: ");
@@ -71,6 +73,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   Serial.println(info.s);
   Serial.print("v: ");
   Serial.println(info.v);
+  Serial.println();
 
   
 
